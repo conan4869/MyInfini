@@ -73,8 +73,6 @@ void ITMSceneReconstructionEngine_CUDA<TVoxel,ITMVoxelBlockHash>::AllocateSceneF
 	float mu = scene->sceneParams->mu;
 
 	float *depth = view->depth->GetData(true);
-
-
 	int *voxelAllocationList = scene->localVBA.GetAllocationList();
 	int *excessAllocationList = scene->index.GetExcessAllocationList();
 	uchar *entriesVisibleType = scene->index.GetEntriesVisibleType();

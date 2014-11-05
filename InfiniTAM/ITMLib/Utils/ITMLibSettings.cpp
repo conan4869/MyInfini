@@ -15,6 +15,10 @@ ITMLibSettings::ITMLibSettings(void)
 	skipPoints = true;
 #ifndef COMPILE_WITHOUT_CUDA
 	useGPU = true;
+	///////////////////
+	//tested by boxer
+	//useGPU = false;
+	//////////////////
 #else
 	useGPU = false;
 #endif

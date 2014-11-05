@@ -36,12 +36,14 @@ void ImageFileReader::loadIntoCache(void)
 	if ((cached_rgb != NULL) || (cached_depth != NULL)) return;
 
 	cached_rgb = new ITMUChar4Image();
-	cached_depth = new ITMShortImage();
+	//cached_depth = new ITMShortImage();
+	cached_depth = new ITMFloatImage();
 
 	char str[2048];
 	sprintf(str, rgbImageMask, currentFrameNo);
 	if (!ReadImageFromFile(cached_rgb, str)) { delete cached_rgb; cached_rgb = NULL; }
 	sprintf(str, depthImageMask, currentFrameNo);
+	//if (!ReadImageFromFile(cached_depth, str)) { delete cached_depth; cached_depth = NULL; }
 	if (!ReadImageFromFile(cached_depth, str)) { delete cached_depth; cached_depth = NULL; }
 }
 
@@ -61,7 +63,8 @@ void ImageFileReader::getImages(ITMView *out)
 		bUsedCache = true;
 	}
 	if (cached_depth != NULL) {
-		out->rawDepth->SetFrom(cached_depth);
+		//out->rawDepth->SetFrom(cached_depth);
+		out->depth->SetFrom(cached_depth);
 		delete cached_depth;
 		cached_depth = NULL;
 		bUsedCache = true;
@@ -75,7 +78,8 @@ void ImageFileReader::getImages(ITMView *out)
 		ReadImageFromFile(out->rawDepth, str);
 	}
 
-	out->inputImageType = ITMView::InfiniTAM_DISPARITY_IMAGE;
+	//out->inputImageType = ITMView::InfiniTAM_DISPARITY_IMAGE;
+	out->inputImageType = ITMView::InfiniTAM_FLOAT_DEPTH_IMAGE;
 
 	++currentFrameNo;
 }

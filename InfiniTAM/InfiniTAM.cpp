@@ -4,13 +4,12 @@
 #include "Engine/ImageSourceEngine.h"
 #include "Engine/OpenNIEngine.h"
 
-
-
 using namespace InfiniTAM::Engine;
 
 int main(int argc, char** argv)
 {
-	const char *calibFile = "./Files/Teddy/calib.txt";
+	//const char *calibFile = "./Files/Teddy/calib.txt";
+	const char *calibFile = "./Files/20fps_slowmotion_far_distance_se3motion/calib.txt";
 	const char *imagesource_part1 = NULL;
 	const char *imagesource_part2 = NULL;
 
@@ -23,11 +22,6 @@ int main(int argc, char** argv)
 		if (argv[arg] != NULL) imagesource_part2 = argv[arg]; else break;
 	} while (false);
 
- 	imagesource_part1 = "D:/PCL1.7/KinFu/20fps_slowmotion_far_distance_se3motion/scene_00_%04d.png";
- 	imagesource_part2 = "D:/PCL1.7/KinFu/20fps_slowmotion_far_distance_gt_se3motion/scene_00_%04d.depth";
-// 	imagesource_part1 = "./Teddy/Frames/%04i.ppm";
-//	imagesource_part2 = "./Teddy/Frames/%04i.pgm";
-
 	if (arg == 1) {
 		printf("usage: %s [<calibfile> [<imagesource>] ]\n"
 		       "  <calibfile>   : path to a file containing intrinsic calibration parameters\n"
@@ -39,8 +33,23 @@ int main(int argc, char** argv)
 		       "  %s ./Files/Teddy/calib.txt\n\n", argv[0], argv[0], argv[0]);
 	}
 
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Added by Boxer
+	////////////////////////////////////////////////////
+	//imagesource_part1 = "./Files/Teddy/Frames/%04i.ppm";
+	//imagesource_part2 = "./Files/Teddy/Frames/%04i.pgm";
+
+	imagesource_part1 = "./Files/20fps_slowmotion_far_distance_se3motion/scene_00_%04d.png";
+	imagesource_part2 = "./Files/20fps_slowmotion_far_distance_gt_se3motion/scene_z_00_%04d.depth";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 	printf("initialising ...\n");
- 	ITMLibSettings *internalSettings = new ITMLibSettings();
+	ITMLibSettings *internalSettings = new ITMLibSettings();
 
 	ImageSourceEngine *imageSource;
 	printf("using calibration file: %s\n", calibFile);

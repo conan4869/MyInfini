@@ -30,7 +30,8 @@ namespace InfiniTAM
 			char depthImageMask[BUF_SIZE];
 
 			ITMUChar4Image *cached_rgb;
-			ITMShortImage *cached_depth;
+			//ITMShortImage *cached_depth;
+			ITMFloatImage *cached_depth;
 
 			void loadIntoCache();
 		public:

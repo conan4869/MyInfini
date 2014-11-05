@@ -10,6 +10,11 @@ void SaveImageToFile(const ITMFloatImage* image, const char* fileName);
 bool ReadImageFromFile(ITMUChar4Image* image, const char* fileName);
 bool ReadImageFromFile(ITMShortImage *image, const char *fileName);
 
+
+////////////////////////////////////////////////////////////////////
+// Added by Boxer
+bool ReadImageFromFile(ITMFloatImage *image, const char *fileName);
+
 template <typename T> void ReadFromBIN(T *data, int dataSize, const char *fileName)
 {
 	FILE *f = fopen(fileName, "rb");

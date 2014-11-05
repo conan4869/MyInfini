@@ -6,18 +6,36 @@
 
 _CPU_AND_GPU_CODE_ inline void convertDisparityToDepth(float *d_out, int x, int y, const short *d_in, Vector2f disparityCalibParams, float fx_depth, Vector2i imgSize)
 {
+	////////////////////////////////////////////////////////////////////////
+	// removed by JunTao
+	/////////////////////////////////////////////////////////////////////////////////
+	//int locId = x + y * imgSize.x;
+
+	//short disparity = d_in[locId];
+	//float disparity_tmp = disparityCalibParams.x - (float)(disparity);
+	//float depth;
+
+	//if (disparity_tmp == 0) depth = 0.0;
+	//else depth = 8.0f * disparityCalibParams.y * fx_depth / disparity_tmp;
+
+	//d_out[locId] = (depth > 0) ? depth : -1.0f;
+	/////////////////////////////////////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//Added by JunTao, Boxer
+	//////////////////////////////////////////////////////////////////////////////////////////
 	int locId = x + y * imgSize.x;
 
 	short disparity = d_in[locId];
-	float disparity_tmp = disparityCalibParams.x - (float)(disparity);
+	//float disparity_tmp = disparityCalibParams.x - (float)(disparity);
 	float depth;
 
-	if (disparity_tmp == 0) depth = 0.0;
-	else depth = 8.0f * disparityCalibParams.y * fx_depth / disparity_tmp;
-
-	d_out[locId] = (depth > 0) ? depth : -1.0f;
-// 	depth = ((float)disparity/512);
-// 	d_out[locId] == (depth > 0) ? depth : -1.0f;
+	//depth = (disparity)/500.0;
+	
+	depth = ((float)disparity)/30000.0f;
+	d_out[locId] == (depth > 0) ? depth : -1.0f;
+	//////////////////////////////////////////////////////////////////////////////////////
 }
 
 _CPU_AND_GPU_CODE_ inline void filterSubsample(Vector4u *imageData_out, int x, int y, Vector2i newDims, const Vector4u *imageData_in, Vector2i oldDims)

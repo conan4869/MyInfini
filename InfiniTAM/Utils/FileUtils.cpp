@@ -5,8 +5,11 @@
 #include <stdio.h>
 #include <fstream>
 
-#include "opencv/cv.h"
-#include "opencv/highgui.h"
+//////////////////////////////////////////////////////////////////////
+// Added By Juntao
+///////////////////////////////////////////////////////////////////////
+#include <opencv2\opencv.hpp> 
+///////////////////////////////////////////////////////////////////////
 
 static const char *pgm_id = "P5";
 static const char *ppm_id = "P6";
@@ -166,14 +169,39 @@ void SaveImageToFile(const ITMFloatImage* image, const char* fileName)
 
 bool ReadImageFromFile(ITMUChar4Image* image, const char* fileName)
 {
+	////////////////////////////////////////////////////////////////////////
+	// removed by JunTao
+	/////////////////////////////////////////////////////////////////////////////////
+	//int xsize, ysize;
+	//FILE *f = fopen(fileName, "rb");
+	//if (f == NULL) return false;
+	//if (pnm_readheader(f, &xsize, &ysize)!=PNM_PPM) { fclose(f); return false; }
+
+	//unsigned char *data = new unsigned char[xsize*ysize*3];
+	//if (!pnm_readdata(f, xsize, ysize, PNM_PPM, data)) { fclose(f); delete[] data; return false; }
+	//fclose(f);
+
+	//Vector2i newSize(xsize, ysize);
+	//image->ChangeDims(newSize);
+	//for (int i = 0; i < image->noDims.x*image->noDims.y; ++i) 
+	//{
+	//	image->GetData(false)[i].r = data[i*3+0];
+	//	image->GetData(false)[i].g = data[i*3+1];
+	//	image->GetData(false)[i].b = data[i*3+2];
+	//	image->GetData(false)[i].w = 255; 
+	//}
+
+	//delete[] data;
+
+	//return true;
+	/////////////////////////////////////////////////////////////////////////////////
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//Added by JunTao
+	//////////////////////////////////////////////////////////////////////////////////////////
 	int xsize, ysize;
-// 	FILE *f = fopen(fileName, "rb");
-// 	if (f == NULL) return false;
-// 	if (pnm_readheader(f, &xsize, &ysize)!=PNM_PPM) { fclose(f); return false; }
-// 
-// 	unsigned char *data = new unsigned char[xsize*ysize*3];
-// 	if (!pnm_readdata(f, xsize, ysize, PNM_PPM, data)) { fclose(f); delete[] data; return false; }
-// 	fclose(f);
 	cv::Mat tmp= cv::imread(fileName);
 	xsize = tmp.rows;
 	ysize = tmp.cols;
@@ -188,48 +216,135 @@ bool ReadImageFromFile(ITMUChar4Image* image, const char* fileName)
 		image->GetData(false)[i].b = data[i*3+2];
 		image->GetData(false)[i].w = 255; 
 	}
-
-//	delete[] data;
-
 	return true;
+	//////////////////////////////////////////////////////////////////////////////////////
 }
 
 bool ReadImageFromFile(ITMShortImage *image, const char *fileName)
 {
+
+	////////////////////////////////////////////////////////////////////////
+	// removed by JunTao
+	/////////////////////////////////////////////////////////////////////////////////
+	//int xsize, ysize;
+	//FILE *f = fopen(fileName, "rb");
+	//if (f == NULL) return false;
+	//PNMtype type = pnm_readheader(f, &xsize, &ysize);
+	//if ((type != PNM_PGM_16s)&&(type != PNM_PGM_16u)) { fclose(f); return false; }
+
+	//unsigned short *data = new unsigned short[xsize*ysize];
+	//if (!pnm_readdata(f, xsize, ysize, type, data)) { fclose(f); delete[] data; return false; }
+	//fclose(f);
+
+	//Vector2i newSize(xsize, ysize);
+	//image->ChangeDims(newSize);
+	//for (int i = 0; i < image->noDims.x*image->noDims.y; ++i) {
+	//	image->GetData(false)[i] = (data[i]<<8) | ((data[i]>>8)&255);
+	//	std::cout<<data[i]<<std::endl;
+	//	//tested by boxer
+	//	std::cout<<image->GetData(false)[i]<<std::endl;
+	//}
+	//delete[] data;
+
+	//return true;
+	/////////////////////////////////////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//Added by JunTao
+	//////////////////////////////////////////////////////////////////////////////////////////
 	int xsize, ysize;
-// 	FILE *f = fopen(fileName, "rb");
-// 	if (f == NULL) return false;
-// 	PNMtype type = pnm_readheader(f, &xsize, &ysize);
-// 	if ((type != PNM_PGM_16s)&&(type != PNM_PGM_16u)) { fclose(f); return false; }
-// 	unsigned short *data = new unsigned short[xsize*ysize];
-// 	if (!pnm_readdata(f, xsize, ysize, type, data)) { fclose(f); delete[] data; return false; }
-// 
+
 	FILE *f = fopen(fileName,"r");
 	float tmp = 0;
-	
 
-	
 	xsize = 640;
 	ysize = 480;
 	unsigned short *data = new unsigned short[xsize*ysize];
 	for (int i = 0;i<640*480;i++)
 	{
 		fscanf(f,"%f",&tmp);
-		data[i] = (unsigned short)(tmp);
+		data[i] = (unsigned short)(tmp*100);
+
+		//tested by boxer
+		//std::cout<<data[i]<<std::endl;
 	}
 
 	fclose(f);
-//	FILE *fp = fopen("de.txt","w");
 
 	Vector2i newSize(xsize, ysize);
 	image->ChangeDims(newSize);
 	for (int i = 0; i < image->noDims.x*image->noDims.y; ++i) {
-//		image->GetData(false)[i] = (data[i]<<8) | ((data[i]>>8)&255);
 		image->GetData(false)[i] = data[i];
-//		fprintf(fp,"%d ",(data[i]<<8) | ((data[i]>>8)&255));
 	}
 	delete[] data;
 
 	return true;
+	//////////////////////////////////////////////////////////////////////////////////////
 }
 
+
+bool ReadImageFromFile(ITMFloatImage *image, const char* fileName)
+{
+	//int xsize, ysize;
+	//FILE *f = fopen(fileName, "rb");
+	//if (f == NULL) return false;
+	//PNMtype type = pnm_readheader(f, &xsize, &ysize);
+	//if ((type != PNM_PGM_16s)&&(type != PNM_PGM_16u)) { fclose(f); return false; }
+
+	//unsigned short *data = new unsigned short[xsize*ysize];
+	//if (!pnm_readdata(f, xsize, ysize, type, data)) { fclose(f); delete[] data; return false; }
+	//fclose(f);
+
+	//Vector2i newSize(xsize, ysize);
+	//image->ChangeDims(newSize);
+	//for (int i = 0; i < image->noDims.x*image->noDims.y; ++i) {
+	//	unsigned short temp = (data[i]<<8) | ((data[i]>>8)&255);
+	//	float disparity_tmp = 1135.09f - (float)(temp);
+	//	float depth;
+
+	//	if (disparity_tmp == 0) depth = 0.0;
+	//	else depth = 8.0f * 0.0819141f * 573.71f / disparity_tmp;
+
+	//	depth = (depth > 0) ? depth : -1.0f;
+	//	image->GetData(false)[i] = depth;
+	////	std::cout<<temp<<std::endl;
+	////	//tested by boxer
+	//	//std::cout<<image->GetData(false)[i]<<std::endl;
+	//}
+	//delete[] data;
+
+	//return true;
+
+
+	int xsize, ysize;
+
+	FILE *f = fopen(fileName,"r");
+	if (f == NULL) return false;
+	float tmp = 0;
+
+	xsize = 640;
+	ysize = 480;
+	float *data = new float[xsize*ysize];
+	for (int i = 0;i<640*480;i++)
+	{
+		fscanf(f,"%f",&tmp);
+		data[i] = tmp/300.0f;
+
+		//tested by boxer
+		//std::cout<<data[i]<<std::endl;
+	}
+
+	fclose(f);
+
+	Vector2i newSize(xsize, ysize);
+	image->ChangeDims(newSize);
+	for (int i = 0; i < image->noDims.x*image->noDims.y; ++i) {
+		image->GetData(false)[i] = data[i];
+	}
+	delete[] data;
+
+	return true;
+
+
+}

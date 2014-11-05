@@ -47,7 +47,8 @@ namespace ITMLib
 				this->depth = new ITMFloatImage(imgSize, useGPU);
 
 				this->rawDepth = new ITMShortImage(imgSize, useGPU);
-				this->inputImageType = InfiniTAM_DISPARITY_IMAGE;
+				//this->inputImageType = InfiniTAM_DISPARITY_IMAGE;
+				this->inputImageType = InfiniTAM_FLOAT_DEPTH_IMAGE;
 			}
 
 			~ITMView(void)

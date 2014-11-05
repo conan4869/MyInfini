@@ -143,8 +143,6 @@ void ITMLowLevelEngine_CUDA::ConvertDisparityToDepth(ITMFloatImage *depth_out, c
 	dim3 gridSize((int)ceil((float)imgSize.x / (float)blockSize.x), (int)ceil((float)imgSize.y / (float)blockSize.y));
 
 	convertDisparityToDepth_device << <gridSize, blockSize >> >(d_out, d_in, disparityCalibParams, fx_depth, imgSize);
-
-
 }
 
 // device functions

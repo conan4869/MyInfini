@@ -86,18 +86,6 @@ void ITMMainEngine::ProcessFrame(void)
 	// prepare image and turn it into a depth image
 	if (view->inputImageType == ITMView::InfiniTAM_DISPARITY_IMAGE)
 		lowLevelEngine->ConvertDisparityToDepth(view->depth, view->rawDepth, &(view->calib->intrinsics_d), &(view->calib->disparityCalib));
-// FILE *fp = fopen("debug.txt","w");
-// float *tmp = view->depth->GetData(false);
-// 	for(int i=0;i<640*480;i++)
-// 	{
-// 		fprintf(fp,"%f ",tmp[i]);
-// 	}
-// 	float *d_out = view->depth->GetData(false);
-// 	short *d_in = view->rawDepth->GetData(false);;
-// 	for (int i =0;i<640*480;i++)
-// 	{
-// 		d_out[i] = (float)d_in[i]/500;
-// 	}
 
 	// tracking
 	if (hasStartedObjectReconstruction) tracker->TrackCamera(trackingState, view);
